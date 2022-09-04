@@ -23,39 +23,7 @@
     <body>
 
         <header class="header">
-            <nav class="nav-bar fixed-top">
-                <div class="container">
-                    <div class="row align-items-center brown__btn">
-                        <div class="col-2">
-                            <div class="header__logo"> <a href="http://localhost:8080/UniqloShop/HomeServlet"><img src="./public/images/login/logo.png"
-                                                                                                                   alt=""></a> </div>
-                        </div>
-                        <div class="col-8">
-                            <div class="main__menu">
-                                <ul class="d-flex flex-row justify-content-center">
-                                    <li class=""><a href="HomeServlet">Home</a></li>
-                                    <li class=""><a href="">About</a></li>
-                                    <li class=""><a href="">Blog</a></li>
-                                    <li class=""><a href="CategoryServlet">Shop</a></li>
-                                    <li class=""><a href="">Pages</a></li>
-                                    <li class=""><a href="">Contact</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-2">
-                            <div class="extra__menu">
-                                <ul class="d-flex flex-row">
-                                    <li class="p-3"><a href=""><i class="fa-solid fa-magnifying-glass"></i></a></li>
-                                    <li class="p-3"><a href=""><i class="fa-solid fa-user"></i></a></li>
-                                    <li class="p-3"><a href=""><i class="fa-solid fa-cart-shopping"></i></a></li>
-                                    <li class="count-cart"><span class="cart-badge">${cartNumber}</span></li>
-                                    <li class="p-3"><a href=""><i class="fa-solid fa-bars"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </nav>
+            <%@include file="./inc/nav-bar.jsp" %>
             <div class="header__content row text-center align-items-center">
                 <div class="header__content__inner">
                     <h1>Cart</h1>
@@ -88,9 +56,10 @@
                                     <td class="product-quantity">${orderDetailSession.quantity}</td>
                                     <td>${orderDetailSession.price * orderDetailSession.quantity}</td>
                                     <td>
-                                        <form action="OrderServlet" method="post">
+                                        <form id="myform" action="OrderServlet" method="post">
                                             <input type="hidden" name="action" value="delete"/>
                                             <input type="hidden" name="productId" value="${orderDetailSession.productId}"/>
+                                            <input type="hidden" name="quantity" value="${orderDetailSession.quantity}"/>
                                             <button type="submit">x</button>
                                         </form>
                                     </td>
@@ -122,7 +91,7 @@
                     <div class="col-4">
                         <h2>Cart Totals: ${total}</h2>
                         <table>
-               
+
                         </table>
                         <div class="wc-proceed-to-checkout">
                             <a href="CheckoutServlet" class="checkout-btn btn btn btn-dark">Proceed to Checkout</a>

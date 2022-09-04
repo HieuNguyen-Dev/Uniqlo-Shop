@@ -9,6 +9,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 import org.uniqlo.dao.DatabaseDao;
 import org.uniqlo.dao.ProductDao;
@@ -22,7 +23,15 @@ public class HomeServlet extends BaseServlet {
             throws ServletException, IOException {
 
         ProductDao productDao = DatabaseDao.getInstance().getProductDao();
-        List<Product> productList = productDao.all();
+        List<Product> bestProductList = new ArrayList<Product>();
+        List<Integer> productIdList = productDao.bestProduct();
+        for (Integer integer : productIdList) {
+            bestProductList.add(productDao.find(integer));
+        }
+        
+        List<Product> newProductList = productDao.newProduct();
+        
+        
         HttpSession session = request.getSession();
         Flash flash = new Flash();
         if (session.getAttribute("user") != null){
@@ -32,7 +41,8 @@ public class HomeServlet extends BaseServlet {
         }
         
         request.setAttribute("cartNumber", Flash.cartNumber);
-        request.setAttribute("productList", productList);
+        request.setAttribute("bestProductList", bestProductList);
+        request.setAttribute("newProductList", newProductList);
         request.setAttribute("dropdown", flash.getDropDown());
         request.getRequestDispatcher("home.jsp").forward(request, response);
 

@@ -8,18 +8,19 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import org.uniqlo.BaseServlet;
+import org.uniqlo.admin.AdminServlet;
 import org.uniqlo.dao.DatabaseDao;
 import org.uniqlo.dao.OrderDao;
 import org.uniqlo.dao.UserDao;
 import org.uniqlo.model.Order;
 import org.uniqlo.model.User;
 
-public class EditOrderServlet extends BaseServlet {
+public class EditOrderServlet extends AdminServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        super.doGet(request, response);
         int orderId = Integer.parseInt(request.getParameter("orderId"));
 
         OrderDao orderDao = DatabaseDao.getInstance().getOrderDao();
@@ -30,12 +31,13 @@ public class EditOrderServlet extends BaseServlet {
 
         request.setAttribute("order", order);
         request.setAttribute("user", user);
-        request.getRequestDispatcher("admin/orders/edit.jsp").forward(request, response);
+        request.getRequestDispatcher("admin/orders/edit.jsp").include(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        super.doPost(request, response);
         int orderId = Integer.parseInt(request.getParameter("orderId"));
 
         OrderDao orderDao = DatabaseDao.getInstance().getOrderDao();

@@ -9,16 +9,17 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
-import org.uniqlo.BaseServlet;
+import org.uniqlo.admin.AdminServlet;
 import org.uniqlo.dao.DatabaseDao;
 import org.uniqlo.dao.OrderDao;
 import org.uniqlo.model.Order;
 
-public class IndexOrderServlet extends BaseServlet {
+public class IndexOrderServlet extends AdminServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        super.doGet(request, response);
         OrderDao orderDao = DatabaseDao.getInstance().getOrderDao();
         List<Order> orderList = null;
         if (request.getParameter("status") == null) {
@@ -35,7 +36,7 @@ public class IndexOrderServlet extends BaseServlet {
 //        statusList.add("Canceled");
 //        request.setAttribute("statusList", statusList);
         request.setAttribute("orderList", orderList);
-        request.getRequestDispatcher("admin/orders/index.jsp").forward(request, response);
+        request.getRequestDispatcher("admin/orders/index.jsp").include(request, response);
     }
 
     @Override

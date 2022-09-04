@@ -1,11 +1,12 @@
 .login-form {
-    min-height: 50vh;
+    height: 100vh;
     background: rgba(0, 0, 0, 0) url(../images/login/PageBG.jpg) no-repeat scroll center center / cover;
     padding-top: 5rem;
 }
 
 .login__register {
     padding: 5rem 0;
+    margin-top: 10rem;
 }
 
 .log__btn a {

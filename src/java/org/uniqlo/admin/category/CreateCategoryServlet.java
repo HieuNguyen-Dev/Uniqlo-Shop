@@ -8,7 +8,7 @@ import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.uniqlo.BaseServlet;
+import org.uniqlo.admin.AdminServlet;
 import org.uniqlo.dao.CategoryDao;
 import org.uniqlo.dao.DatabaseDao;
 import org.uniqlo.model.Category;
@@ -17,18 +17,20 @@ import org.uniqlo.model.Category;
  *
  * @author Admin
  */
-public class CreateCategoryServlet extends BaseServlet {
+public class CreateCategoryServlet extends AdminServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-         request.getRequestDispatcher("admin/categories/create.jsp").forward(request, response);
+        super.doGet(request, response);
+         request.getRequestDispatcher("admin/categories/create.jsp").include(request, response);
     }
 
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        super.doPost(request, response);
         String name = request.getParameter("name");
         String desc = request.getParameter("desc");
         

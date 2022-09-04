@@ -83,8 +83,34 @@ public class ProductDaoImpl implements ProductDao {
         List<Product> productList = new ArrayList<Product>();
         String sql = "SELECT * FROM ProductS";
         try {
-            Statement stm = conn.createStatement();
-            ResultSet rs = stm.executeQuery(sql);
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
+                String img = rs.getString("img");
+                String desc = rs.getString("description");
+                double price = rs.getDouble("price");
+                int quantity = rs.getInt("quantity");
+                int categoryId = rs.getInt("categoryId");
+
+                productList.add(new Product(id, name, img, desc, price, quantity, categoryId));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return productList;
+    }
+
+    @Override
+    public List<Product> allByPages(int first, int last) {
+        List<Product> productList = new ArrayList<Product>();
+        String sql = "SELECT * FROM ProductS Limit ?,?";
+        try {
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, first);
+            stmt.setInt(2, last);
+            ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String name = rs.getString("name");
@@ -149,12 +175,14 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public List<Product> findByCategoryId(int categoryId) {
+    public List<Product> findByCategoryId(int categoryId, int first, int last) {
         List<Product> productList = new ArrayList<Product>();
-        String sql = "SELECT * FROM PRODUCTS WHERE categoryId=?";
+        String sql = "SELECT * FROM PRODUCTS WHERE categoryId=? Limit ?,?";
         try {
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setInt(1, categoryId);
+            stmt.setInt(2, first);
+            stmt.setInt(3, last);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt("id");
@@ -211,6 +239,64 @@ public class ProductDaoImpl implements ProductDao {
             Logger.getLogger(ProductDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return productList;
+    }
+
+    @Override
+    public List<Integer> bestProduct() {
+        List<Integer> productIdList = new ArrayList<Integer>();
+        String sql = "SELECT productId, SUM(quantity) as quantity FROM orders_details GROUP BY productId ORDER BY `quantity` DESC LIMIT 4;";
+        try {
+            Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+
+            while (rs.next()) {
+                productIdList.add(rs.getInt("productId"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return productIdList;
+    }
+
+    @Override
+    public List<Product> newProduct() {
+        List<Product> productList = new ArrayList<Product>();
+        String sql = "SELECT * FROM `products` WHERE id ORDER BY id DESC LIMIT 4;";
+        try {
+            Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
+                String img = rs.getString("img");
+                String desc = rs.getString("description");
+                double price = rs.getDouble("price");
+                int quantity = rs.getInt("quantity");
+                int categoryId = rs.getInt("categoryId");
+
+                productList.add(new Product(id, name, img, desc, price, quantity, categoryId));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return productList;
+    }
+
+    @Override
+    public int countProductByCategory(int categoryId) {
+        String sql = "SELECT COUNT(*) AS count FROM products where categoryid=?";
+        try {
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, categoryId);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                int countProduct = rs.getInt("count");
+                return countProduct;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
     }
 
 }

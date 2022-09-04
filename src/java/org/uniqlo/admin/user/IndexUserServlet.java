@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
-import org.uniqlo.BaseServlet;
+import org.uniqlo.admin.AdminServlet;
 import org.uniqlo.dao.DatabaseDao;
 import org.uniqlo.dao.UserDao;
 import org.uniqlo.model.User;
@@ -18,16 +18,17 @@ import org.uniqlo.model.User;
  *
  * @author Hieu
  */
-public class IndexUserServlet extends BaseServlet {
+public class IndexUserServlet extends AdminServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        super.doGet(request, response);
         UserDao userDao = DatabaseDao.getInstance().getUserDao();
         List<User> userList = userDao.all();
         
         request.setAttribute("userList", userList);
-        request.getRequestDispatcher("admin/users/index.jsp").forward(request, response);
+        request.getRequestDispatcher("admin/users/index.jsp").include(request, response);
     }
 
     @Override

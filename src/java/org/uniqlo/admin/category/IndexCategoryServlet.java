@@ -9,7 +9,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
-import org.uniqlo.BaseServlet;
+import org.uniqlo.admin.AdminServlet;
 import org.uniqlo.dao.CategoryDao;
 import org.uniqlo.dao.DatabaseDao;
 import org.uniqlo.model.Category;
@@ -18,16 +18,17 @@ import org.uniqlo.model.Category;
  *
  * @author Admin
  */
-public class IndexCategoryServlet extends BaseServlet {
+public class IndexCategoryServlet extends AdminServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        super.doGet(request, response);
         CategoryDao categoryDao = DatabaseDao.getInstance().getCategoryDao();
         List<Category> categoryList = categoryDao.all();
         
         request.setAttribute("categoryList", categoryList);
-        request.getRequestDispatcher("admin/categories/index.jsp").forward(request, response);
+        request.getRequestDispatcher("admin/categories/index.jsp").include(request, response);
     }
 
     @Override

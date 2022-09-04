@@ -8,7 +8,7 @@ import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.uniqlo.BaseServlet;
+import org.uniqlo.admin.AdminServlet;
 import org.uniqlo.dao.DatabaseDao;
 import org.uniqlo.dao.UserDao;
 import org.uniqlo.model.User;
@@ -18,18 +18,20 @@ import org.uniqlo.util.MD5Hashing;
  *
  * @author Hieu
  */
-public class CreateUserServlet extends BaseServlet {
+public class CreateUserServlet extends AdminServlet {
 
 @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-         request.getRequestDispatcher("admin/users/create.jsp").forward(request, response);
+        super.doGet(request, response);
+         request.getRequestDispatcher("admin/users/create.jsp").include(request, response);
     }
 
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        super.doPost(request, response);
         String email = request.getParameter("email");
         String password = MD5Hashing.getMD5(request.getParameter("password"));
         String role = request.getParameter("role");

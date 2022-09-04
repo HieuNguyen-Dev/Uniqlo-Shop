@@ -9,21 +9,22 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
-import org.uniqlo.BaseServlet;
+import org.uniqlo.admin.AdminServlet;
 import org.uniqlo.dao.DatabaseDao;
 import org.uniqlo.dao.OrderDetailDao;
 import org.uniqlo.model.OrderDetail;
 
-public class IndexOrderDetailServlet extends BaseServlet {
+public class IndexOrderDetailServlet extends AdminServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        super.doGet(request, response);
         OrderDetailDao orderDetailDao = DatabaseDao.getInstance().getOrderDetailDao();
         List<OrderDetail> orderDetailList = orderDetailDao.all();
         
         request.setAttribute("orderDetailList", orderDetailList);
-        request.getRequestDispatcher("admin/orders_details/index.jsp").forward(request, response);
+        request.getRequestDispatcher("admin/orders_details/index.jsp").include(request, response);
     }
 
     @Override

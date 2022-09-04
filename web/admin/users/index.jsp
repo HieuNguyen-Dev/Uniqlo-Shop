@@ -48,9 +48,10 @@
                                         </tr>
                                     </tfoot>
                                     <tbody>
+                                        <c:set var="index" value="1"></c:set>
                                         <c:forEach items="${userList}" var="user">
                                             <tr>
-                                                <td>#</td>
+                                                <td>${index}</td>
                                                 <td>${user.email}</td>
                                                 <td>${user.role}</td>
                                                 <td>
@@ -60,6 +61,7 @@
                                                     <a href="DeleteUserServlet?userId=${user.id}">Delete</a>
                                                 </td>
                                             </tr>
+                                            <c:set var="index" value="${index + 1}"></c:set>
                                         </c:forEach>
                                     </tbody>
                                 </table>

@@ -85,7 +85,6 @@ public class CategoryDaoImpl implements CategoryDao {
                 int id = rs.getInt("id");
                 String name = rs.getString("name");
                 String desc = rs.getString("description");
-                
                 categoryList.add(new Category(id, name, desc));
             }
         } catch (SQLException ex) {

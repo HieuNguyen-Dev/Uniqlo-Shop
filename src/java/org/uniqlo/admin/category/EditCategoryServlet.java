@@ -8,43 +8,46 @@ import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.uniqlo.BaseServlet;
+import org.uniqlo.admin.AdminServlet;
 import org.uniqlo.dao.CategoryDao;
 import org.uniqlo.dao.DatabaseDao;
 import org.uniqlo.model.Category;
+
 /**
  *
  * @author Admin
  */
-public class EditCategoryServlet extends BaseServlet {
+public class EditCategoryServlet extends AdminServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {        
+            throws ServletException, IOException {
+        super.doGet(request, response);
         int categoryId = Integer.parseInt(request.getParameter("categoryId"));
-        
+
         CategoryDao categoryDao = DatabaseDao.getInstance().getCategoryDao();
         Category category = categoryDao.find(categoryId);
-        
+
         request.setAttribute("category", category);
-        request.getRequestDispatcher("admin/categories/edit.jsp").forward(request, response);
+        request.getRequestDispatcher("admin/categories/edit.jsp").include(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-         int categoryId = Integer.parseInt(request.getParameter("categoryId"));
-          
+        super.doPost(request, response);
+        int categoryId = Integer.parseInt(request.getParameter("categoryId"));
+
         CategoryDao categoryDao = DatabaseDao.getInstance().getCategoryDao();
         Category category = categoryDao.find(categoryId);
-        
+
         String name = request.getParameter("name");
         String desc = request.getParameter("desc");
         category.setName(name);
         category.setDesc(desc);
-        
+
         categoryDao.update(category);
-        
+
         response.sendRedirect("IndexCategoryServlet");
     }
 }

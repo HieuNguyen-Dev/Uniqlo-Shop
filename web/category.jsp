@@ -17,66 +17,8 @@
     </head>
 
     <body>
-        <header class="header">
-            <nav class="nav-bar fixed-top">
-                <div class="container">
-                    <div class="row align-items-center brown__btn">
-                        <div class="col-2">
-                            <div class="header__logo"> <a href="HomeServlet"><img src="./public/images/login/logo.png" alt=""></a>
-                            </div>
-                        </div>
-                        <div class="col-7">
-                            <div class="main__menu">
-                                <ul class="d-flex flex-row justify-content-center">
-                                    <li class=""><a href="HomeServlet">Home</a></li>
-                                    <li class=""><a href="">About</a></li>
-                                    <li class=""><a href="">Blog</a></li>
-                                    <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle" href="CategoryServlet" id="navbarDropdown" role="button" data-toggle="dropdown"
-                                           aria-haspopup="true" aria-expanded="false">
-                                            Shop
-                                        </a>
-                                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                            <a class="dropdown-item" href="CategoryServlet">ALL</a>
-                                            <a class="dropdown-item" href="CategoryServlet?categoryId=1">FURNITURES</a>
-                                            <a class="dropdown-item" href="CategoryServlet?categoryId=2">BAGS</a>
-                                            <a class="dropdown-item" href="CategoryServlet?categoryId=3">DECORATION</a>
-                                            <a class="dropdown-item" href="CategoryServlet?categoryId=4">ACCESSORIES</a>
-                                        </div>
-                                    </li>
-                                    <li class=""><a href="">Pages</a></li>
-                                    <li class=""><a href="">Contact</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="extra__menu">
-                                <ul class="d-flex flex-row">
-                                    <li class="p-3  position-relative">
-                                        <input class="searchBox text-right" type="text" name="name"  placeholder="search...">
-                                        <a class="search-btn" type="button" href=""><i class="fa-solid fa-magnifying-glass"></i></a>
-                                    </li>
-
-                                    <li class="p-3"><a href="CartServlet"><i class="fa-solid fa-cart-shopping"></i></a></li>
-                                    <li class="count-cart"><span class="cart-badge">0</span></li>
-                                    <li class="p-3">
-                                        <div class="${dropdown}">
-                                            <a type="button" data-toggle="${loginBtn}" href="LoginServlet"><i class="fa-solid fa-user"></i></a>
-                                            <ul class="dropdown-menu ">
-                                                <li><a href="#">HTML</a></li>
-                                                <li><a href="#">CSS</a></li>
-                                                <li><a href="#">JavaScript</a></li>
-                                            </ul>
-                                        </div>
-                                    </li>
-
-
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </nav>
+        <header class="header">           
+            <%@include file="./inc/nav-bar.jsp" %>
             <div class="header__content row text-center align-items-center">
                 <div class="header__content__inner">
                     <h1>Shop Page</h1>
@@ -90,11 +32,10 @@
                     <div class="row justify-content-between brown__btn">
                         <div class="content__menu col-6">
                             <ul class="d-flex flex-row">
-                                <li><a href="./CategoryServlet">ALL</a></li>
-                                <li><a href="./CategoryServlet?categoryId=1">FURNITURES</a></li>
-                                <li><a href="./CategoryServlet?categoryId=2">BAGS</a></li>
-                                <li><a href="./CategoryServlet?categoryId=3">DECORATION</a></li>
-                                <li><a href="./CategoryServlet?categoryId=4">ACCESSORIES</a></li>       
+                                <li><a href="CategoryServlet">ALL</a></li>
+                                    <c:forEach items="${categoryList}" var="category">
+                                    <li><a href="CategoryServlet?categoryId=${category.id}">${category.name}</a></li>
+                                    </c:forEach>
                             </ul>
                         </div>
                         <div class="col-5"></div>
@@ -104,7 +45,7 @@
                 <div class="content__inner brown__btn">
                     <div class="row">
                         <c:forEach items="${productList}" var="product">
-                            <div class="col-3 product__item">
+                            <div class="col-3 product__item contentPage">
                                 <div class="product-thumb">
                                     <div><a href="ProductDetailServlet?productId=${product.id}"><img src="${product.img}" alt=""></a></div>
                                     <div class="product__inner">
@@ -118,13 +59,21 @@
                                 <div class="product-desc">
                                     <h3><a href="ProductDetailServlet?productId=${product.id}">${product.name}</a></h3>
                                     <ul class="product-price d-flex">
-                                        <li class="old-price">16.00$</li>
-                                        <li class="new-price">${product.price}</li>
+                                        <li class="old-price">$16.00</li>
+                                        <li class="new-price">$${product.price}</li>
                                     </ul>
                                 </div>
                             </div>
                         </c:forEach>
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination justify-content-center">
+                                <c:forEach items="${pagesList}" var="pages">
+                                    <li class="page-item"><a class="page-link" href="CategoryServlet?categoryId=${categoryId}&pages=${pages}">${pages}</a></li>
+                                </c:forEach>
+                            </ul>
+                        </nav>
                     </div>
+
                 </div>
             </div>
         </section>
@@ -172,7 +121,6 @@
                 </div>
             </div>
         </footer>
-
         <script src="./public/js/main.js"></script>
     </body>
 

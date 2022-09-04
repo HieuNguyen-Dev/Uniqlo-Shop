@@ -30,7 +30,7 @@ public class OrderServlet extends HttpServlet {
         switch (action) {
             case "creat":
                 create(request, response);
-                Flash.cartNumber+=1;
+                
                 break;
             case "delete":
                 delete(request, response);
@@ -47,7 +47,8 @@ public class OrderServlet extends HttpServlet {
         int quantity = Integer.parseInt(request.getParameter("quantity"));
         double price = Double.parseDouble(request.getParameter("price").trim());
         String img = request.getParameter("img");
-
+        Flash.cartNumber+=quantity;
+        
         OrderDetailSession orderDetailSession = new OrderDetailSession(productId, productName, price, quantity, img);
 
         HttpSession session = request.getSession();
@@ -79,7 +80,10 @@ public class OrderServlet extends HttpServlet {
     private void delete(HttpServletRequest request, HttpServletResponse response) {
         int productId = Integer.parseInt(request.getParameter("productId"));
         HttpSession session = request.getSession();
+        int quantity = Integer.parseInt(request.getParameter("quantity"));
+        Flash.cartNumber-=quantity;
         List<OrderDetailSession> cart = null;
+        
         if (session.getAttribute("cart") != null) {
             cart = (List<OrderDetailSession>) session.getAttribute("cart");
             for (OrderDetailSession ods : cart) {

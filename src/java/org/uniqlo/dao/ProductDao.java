@@ -17,9 +17,13 @@ public interface ProductDao {
     public boolean delete(int id);
     
     public List<Product> all();
+    public List<Product> allByPages(int first, int last);
     public Product find(int id);
     public Product findByName(String name);
-    public List<Product> findByCategoryId(int categoryId);
+    public List<Product> findByCategoryId(int categoryId, int first, int last);
     public List<Product> searchByName(String productName);
     public int countProduct();
+    public int countProductByCategory(int categoryId);
+    public List<Integer> bestProduct();
+    public List<Product> newProduct();
 }

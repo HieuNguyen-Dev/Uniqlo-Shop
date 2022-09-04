@@ -1,5 +1,5 @@
 .header__content {
-    height: 500px;
+    height: 100vh;
     font-size: 2rem;
     background: rgba(0, 0, 0, 0) url(../images/Products_List/HeaderBG.jpg) no-repeat scroll center center / cover;
 }
@@ -21,7 +21,9 @@
 .content__menu ul li:first-child {
     padding-left: 0;
 }
-
+section.content{
+    margin-bottom: 10rem;
+}
 .filter__menu {
     padding-top: 7rem;
 }

@@ -9,18 +9,19 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
-import org.uniqlo.BaseServlet;
+import org.uniqlo.admin.AdminServlet;
 import org.uniqlo.dao.CategoryDao;
 import org.uniqlo.dao.DatabaseDao;
 import org.uniqlo.dao.ProductDao;
 import org.uniqlo.model.Category;
 import org.uniqlo.model.Product;
 
-public class EditProductServlet extends BaseServlet {
+public class EditProductServlet extends AdminServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        super.doGet(request, response);
         int productId = Integer.parseInt(request.getParameter("productId"));
 
         ProductDao productDao = DatabaseDao.getInstance().getProductDao();
@@ -31,12 +32,13 @@ public class EditProductServlet extends BaseServlet {
         
         request.setAttribute("categoryList", categoryList);
         request.setAttribute("product", product);
-        request.getRequestDispatcher("admin/products/edit.jsp").forward(request, response);
+        request.getRequestDispatcher("admin/products/edit.jsp").include(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        super.doPost(request, response);
         int productId = Integer.parseInt(request.getParameter("productId"));
           
         ProductDao productDao = DatabaseDao.getInstance().getProductDao();

@@ -26,7 +26,7 @@ public class SearchServlet extends BaseServlet {
         ProductDao productDao = DatabaseDao.getInstance().getProductDao();
         List<Product> productList = null;      
         if(request.getParameter("productName") == null){
-            productList = productDao.all();            
+            productList = productDao.allByPages(4,4);            
         }
         else{
             String productName = request.getParameter("productName");

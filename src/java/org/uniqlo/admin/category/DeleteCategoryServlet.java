@@ -8,19 +8,21 @@ import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.uniqlo.BaseServlet;
+import org.uniqlo.admin.AdminServlet;
 import org.uniqlo.dao.CategoryDao;
 import org.uniqlo.dao.DatabaseDao;
 
-public class DeleteCategoryServlet extends BaseServlet {
+public class DeleteCategoryServlet extends AdminServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        super.doGet(request, response);
+
         int categoryId = Integer.parseInt(request.getParameter("categoryId"));
         CategoryDao categoryDao = DatabaseDao.getInstance().getCategoryDao();
         categoryDao.delete(categoryId);
-        
+
         response.sendRedirect("IndexCategoryServlet");
     }
 
@@ -28,6 +30,5 @@ public class DeleteCategoryServlet extends BaseServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
     }
-
 
 }
